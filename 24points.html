@@ -2,78 +2,93 @@
 <head>
 <script>
     function calc24() {
-        var val1 = document.getElementsById("val1").value;
-        var val2 = document.getElementsById("val2").value;
-        var val3 = document.getElementsById("val3").value;
-        var val4 = document.getElementsById("val4").value;
-        alert(val1+val2+val3+val4)
+        var val1 = document.getElementById("val1").value;
+        var val2 = document.getElementById("val2").value;
+        var val3 = document.getElementById("val3").value;
+        var val4 = document.getElementById("val4").value;
         var nums = new Array();
         var texts = new Array();
         nums[0] = parseInt(val1);
         nums[1] = parseInt(val2);
         nums[2] = parseInt(val3);
         nums[3] = parseInt(val4);
+	if(isNaN(nums[0])||isNaN(nums[1])||isNaN(nums[2])||isNaN(nums[3])) {
+		alert("输入有误，请重新输入4个数字");
+		return;
+	}
         texts[0] = val1;
         texts[1] = val2;
         texts[2] = val3;
         texts[3] = val4;
-        findResult(nums, texts, res);
+	res = new Array();
+	var resset = new Object();
+        findResult(nums, texts, res, resset);
         printResult(res);
     }
     function printResult(res) {
-        for (var i = 0; i < res.length; i++) {
-            var s = "<p>" + res[i] + "</p>";
-        }
-        document.getElementsById("result").innerHTML = s;
+	var s = ""
+	if(res.length > 0) {
+	    s = "<p> 一共有 " + res.length + " 种方法算出24: </p>";
+	        for (var i = 0; i < res.length; i++) {
+        	    s += "<p>" + res[i] + "</p>";
+        	}
+	}
+	else {
+	    s = "抱歉，没有办法算得24!";
+	}
+        document.getElementById("result").innerHTML = s;
     }
-    function findResult(nums, texts, res) {
-        n = nums.length;
+    function findResult(nums, texts, res, resset) {
+        var n = nums.length;
         if (n == 1 && nums[0] >= 23.99 && nums[0] <= 24.001) {
-            res.push(texts[0]);
-            return;
+	    if(resset[texts[0]] == undefined) {
+	            res.push(texts[0]);
+		    resset[texts[0]] = 1;
+        	    return;
+	    }
         }
         for (var i = 0; i < n - 1; i++) {
             for (var j = i + 1; j < n; j++) {
-                nums2 = nums.slice();
+                var nums2 = nums.slice();
                 nums2.splice(j, 1);
                 nums2.splice(i, 1);
-                texts2 = texts.slice();
+                var texts2 = texts.slice();
                 texts2.splice(j, 1);
                 texts2.splice(i, 1);
                 nums2.push(nums[i] + nums[j]);
                 var s = "(" + texts[i] + "+" + texts[j] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
                 nums2.pop();
                 texts2.pop();
                 nums2.push(nums[i] - nums[j]);
-                var s = "(" + texts[i] + "-" + texts[j] + ")";
+                s = "(" + texts[i] + "-" + texts[j] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
                 nums2.pop();
                 texts2.pop();
                 nums2.push(nums[i] * nums[j]);
-                var s = "(" + texts[i] + "*" + texts[j] + ")";
+                s = "(" + texts[i] + "*" + texts[j] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
                 nums2.pop();
                 texts2.pop();
                 nums2.push(nums[i] / nums[j]);
-                var s = "(" + texts[i] + "/" + texts[j] + ")";
+                s = "(" + texts[i] + "/" + texts[j] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
                 nums2.pop();
                 texts2.pop();
                 nums2.push(nums[j] - nums[i]);
-                var s = "(" + texts[j] + "-" + texts[i] + ")";
+                s = "(" + texts[j] + "-" + texts[i] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
                 nums2.pop();
                 texts2.pop();
                 nums2.push(nums[j] / nums[i]);
-                var s = "(" + texts[j] + "/" + texts[i] + ")";
+                s = "(" + texts[j] + "/" + texts[i] + ")";
                 texts2.push(s);
-                findResult(nums2, texts2, res);
+                findResult(nums2, texts2, res, resset);
             }
         }
 
@@ -81,6 +96,9 @@
 </script>
 </head>
 <body>
+<h2>
+请输入4个数字
+</h2>
 <div class="row">
     <div class="col-md-3">
         <input type="text" id="val1" />
@@ -94,7 +112,7 @@
     <div class="col-md-3">
         <input type="text" id="val4" />
     </div>
-    <input type="button" onclick="calc24()" value="Run" />
+    <input type="button" onclick="calc24()" value="看一下结果吧" />
     <div id="result">
     </div>
 </div>
