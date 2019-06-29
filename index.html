@@ -2,11 +2,10 @@
 <head>
 <script>
     function calc24() {
-        alert(val1+val2+val3+val4)
-        var val1 = document.getElementsByName("val1").value;
-        var val2 = document.getElementsByName("val2").value;
-        var val3 = document.getElementsByName("val3").value;
-        var val4 = document.getElementsByName("val4").value;
+        var val1 = document.getElementsById("val1").value;
+        var val2 = document.getElementsById("val2").value;
+        var val3 = document.getElementsById("val3").value;
+        var val4 = document.getElementsById("val4").value;
         alert(val1+val2+val3+val4)
         var nums = new Array();
         var texts = new Array();
@@ -25,7 +24,7 @@
         for (var i = 0; i < res.length; i++) {
             var s = "<p>" + res[i] + "</p>";
         }
-        document.getElementsByName("result").innerHTML = s;
+        document.getElementsById("result").innerHTML = s;
     }
     function findResult(nums, texts, res) {
         n = nums.length;
@@ -84,19 +83,19 @@
 <body>
 <div class="row">
     <div class="col-md-3">
-        <input type="text" name="val1" />
+        <input type="text" id="val1" />
     </div>
     <div class="col-md-3">
-        <input type="text" name="val2" />
+        <input type="text" id="val2" />
     </div>
     <div class="col-md-3">
-        <input type="text" name="val3" />
+        <input type="text" id="val3" />
     </div>
     <div class="col-md-3">
-        <input type="text" name="val4" />
+        <input type="text" id="val4" />
     </div>
     <input type="button" onclick="calc24()" value="Run" />
-    <div name="result">
+    <div id="result">
     </div>
 </div>
 </body>
